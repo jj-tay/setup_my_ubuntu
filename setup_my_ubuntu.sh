@@ -60,6 +60,7 @@ setup_my_ubuntu () {
 
 	# Install python3-pip
 	sudo apt-get install -y python3-pip
+	sudo apt-get install -y python3-venv
 
 	# Install R
 	sudo apt-get install -y --no-install-recommends software-properties-common dirmngr
