@@ -92,6 +92,9 @@ setup_my_ubuntu () {
 	sudo ./aws/install
 	rm -Rf ./aws 
 
+  # Install tldr
+  npm install -g tldr
+
 	# Install chezmoi and apply dotfiles
 	sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply jj-tay
 
