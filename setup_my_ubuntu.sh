@@ -68,6 +68,10 @@ setup_my_ubuntu () {
 	sudo add-apt-repository -y ppa:c2d4u.team/c2d4u4.0+
 	sudo apt-get install -y r-cran-tidyverse
 
+  # Install NodeJS
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+  nvm install 20
+
 	# Install terraform and packer
 	wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
