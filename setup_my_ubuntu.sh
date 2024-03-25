@@ -3,7 +3,7 @@
 setup_my_ubuntu () {
 
 	# Switch to temp directory
-	TEMP_DIR=$(mktemp -d)
+	TEMP_DIR=$(mktemp -d -q)
 	pushd $TEMP_DIR
 
 	# Upgrade packages
