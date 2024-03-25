@@ -20,6 +20,10 @@ setup_my_ubuntu () {
 	# Install gh
 	sudo apt-get install -y gh
 
+	# Install diff-so-fancy
+	sudo add-apt-repository -y ppa:aos1/diff-so-fancy
+	sudo apt-get install -y diff-so-fancy
+
 	# Install eza
 	sudo apt-get install -y gpg
 	sudo mkdir -p /etc/apt/keyrings
