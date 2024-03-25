@@ -26,7 +26,7 @@ setup_my_ubuntu () {
 
 	# Install eza
 	sudo apt-get install -y gpg
-	sudo mkdir -p /etc/apt/keyrings
+	if [ ! -d "/etc/apt/keyrings" ]; then sudo mkdir -p /etc/apt/keyrings; fi
 	wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor --batch --yes -o /etc/apt/keyrings/gierens.gpg
 	echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
 	sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
@@ -75,8 +75,8 @@ setup_my_ubuntu () {
 
   # Install go
   curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
-  rm -rf /usr/local/go
-  tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
+  sudo rm -rf /usr/local/go
+  sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
 
 	# Install terraform and packer
 	wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor --batch --yes -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
