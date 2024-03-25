@@ -99,10 +99,10 @@ setup_my_ubuntu () {
 	sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply jj-tay
 
 	# Cd back to original directory
-	pushd
+	popd
 
 	# Change default shell
-	chsh -s $(which zsh) $(whoami)
+	chsh -s $(which zsh)
 }
 
 setup_my_ubuntu
