@@ -4,7 +4,7 @@ setup_my_ubuntu () {
 
 	# Switch to temp directory
 	TEMP_DIR=$(mktemp -d -q)
-	pushd $TEMP_DIR
+	pushd $TEMP_DIR > /dev/null
 
 	# Upgrade packages
 	sudo apt-get update
