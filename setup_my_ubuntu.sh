@@ -82,6 +82,9 @@ setup_my_ubuntu() {
 	sudo rm -rf /usr/local/go
 	sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
 
+  # Install Rust
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
 	# Install terraform and packer
 	wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor --batch --yes -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 	echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
