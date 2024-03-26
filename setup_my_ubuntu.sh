@@ -1,10 +1,10 @@
 #!/bin/bash
 
-setup_my_ubuntu () {
+setup_my_ubuntu() {
 
 	# Switch to temp directory
 	TEMP_DIR=$(mktemp -d -q)
-	pushd $TEMP_DIR > /dev/null
+	pushd $TEMP_DIR >/dev/null
 
 	# Upgrade packages
 	sudo apt-get update
@@ -16,7 +16,7 @@ setup_my_ubuntu () {
 	# Config git
 	git config --global user.name 'Tay Jun Jie'
 	git config --global email.name 'jjat1987@gmail.com'
-	
+
 	# Install gh
 	sudo apt-get install -y gh
 
@@ -33,7 +33,7 @@ setup_my_ubuntu () {
 	sudo apt-get update
 	sudo apt-get install -y eza
 	if [ ! -d "~/bin" ]; then mkdir -p ~/bin; fi
-  rm -Rf ~/bin/eza
+	rm -Rf ~/bin/eza
 	git clone https://github.com/eza-community/eza.git ~/bin
 
 	# Install bat
@@ -70,17 +70,17 @@ setup_my_ubuntu () {
 	sudo add-apt-repository -y ppa:c2d4u.team/c2d4u4.0+
 	sudo apt-get install -y r-cran-tidyverse
 
-  # Install NodeJS
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-  nvm install 20
+	# Install NodeJS
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+	export NVM_DIR="$HOME/.nvm"
+	[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+	[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+	nvm install 20
 
-  # Install go
-  curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
-  sudo rm -rf /usr/local/go
-  sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
+	# Install go
+	curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
+	sudo rm -rf /usr/local/go
+	sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
 
 	# Install terraform and packer
 	wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor --batch --yes -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
@@ -100,15 +100,15 @@ setup_my_ubuntu () {
 	unzip -q awscliv2.zip
 	sudo ./aws/install
 
-  # Install tldr
-  npm install -g tldr
+	# Install tldr
+	npm install -g tldr
 
 	# Install chezmoi and apply dotfiles
 	sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply jj-tay
 
 	# Cd back to original directory
 	popd
-  rm -Rf $TEMP_DIR
+	rm -Rf $TEMP_DIR
 
 	# Change default shell
 	chsh -s $(which zsh)
