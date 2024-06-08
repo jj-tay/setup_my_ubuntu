@@ -81,9 +81,9 @@ setup_my_ubuntu() {
 	curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
 	sudo rm -rf /usr/local/go
 	sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
-
-  # Install Rust
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ 
+ 	# Install Rust
+  	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
 	# Install terraform and packer
 	wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor --batch --yes -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
@@ -96,6 +96,7 @@ setup_my_ubuntu() {
 	sudo rm -rf /opt/nvim*
 	sudo tar -C /opt -xzf nvim-linux64.tar.gz
 	rm nvim-linux64.tar.gz
+ 	sudo apt-get install -y tree-sitter-cli fonts-powerline
 
 	# Install awscli
 	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
