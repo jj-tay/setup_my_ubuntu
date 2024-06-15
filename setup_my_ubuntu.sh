@@ -111,8 +111,6 @@ setup_my_ubuntu() {
 	popd
 	rm -Rf $TEMP_DIR
 
-	# Change default shell
-	chsh -s $(which zsh)
 }
 
 setup_my_ubuntu
