@@ -108,7 +108,7 @@ setup_my_ubuntu() {
 	npm install -g tldr
 
 	# Install chezmoi and apply dotfiles
-	sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply jj-tay
+	sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply jj-tay
 
 	# Cd back to original directory
 	popd
