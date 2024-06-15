@@ -32,9 +32,6 @@ setup_my_ubuntu() {
 	sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
 	sudo apt-get update
 	sudo apt-get install -y eza
-	if [ ! -d "~/bin" ]; then mkdir -p ~/bin; fi
-	rm -Rf ~/bin/eza
-	git clone https://github.com/eza-community/eza.git ~/bin
 
 	# Install bat
 	sudo apt-get install -y bat
