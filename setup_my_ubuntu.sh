@@ -64,7 +64,24 @@ setup_my_ubuntu() {
 	wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
 	sudo add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
 	sudo apt-get install -y --no-install-recommends r-base
-	sudo add-apt-repository -y ppa:c2d4u.team/c2d4u4.0+
+  sudo apt-get install -y --no-install-recommends wget ca-certificates gnupg
+  wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc \
+    | sudo tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc
+  echo "deb [arch=amd64] https://r2u.stat.illinois.edu/ubuntu noble main" \
+    | sudo tee /etc/apt/sources.list.d/cranapt.list
+  cat << EOF | sudo tee /etc/apt/preferences.d/99cranapt
+Package: *
+Pin: release o=CRAN-Apt Project
+Pin: release l=CRAN-Apt Packages
+Pin-Priority: 700
+EOF
+  sudo apt-get install -y --no-install-recommends python3-{dbus,gi,apt}
+  sudo Rscript -e 'install.packages("bspm")'
+  RHOME=$(R RHOME)
+  cat << EOF | sudo tee -a ${RHOME}/etc/Rprofile.site
+suppressMessages(bspm::enable())
+options(bspm.version.check=FALSE)
+EOF
 	sudo apt-get install -y r-cran-tidyverse
 
 	# Install NodeJS
