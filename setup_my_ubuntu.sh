@@ -53,7 +53,6 @@ setup_my_ubuntu() {
 	sudo apt-get install -y tmux
 	git clone https://github.com/gpakosz/.tmux.git ~
 	ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
-	cp ~/.tmux/.tmux.conf.local ~/.tmux.conf.local
 
 	# Install python3-pip
 	sudo apt-get install -y python3-pip
