@@ -120,7 +120,10 @@ EOF
 	# Install tldr
 	npm install -g tldr
 
-	# Install chezmoi and apply dotfiles
+	# Install zoxide
+	curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+
+ 	# Install chezmoi and apply dotfiles
 	sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply jj-tay
 
 	# Cd back to original directory
