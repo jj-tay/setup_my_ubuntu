@@ -129,6 +129,12 @@ EOF
 	tar xf lazygit.tar.gz lazygit
 	sudo install lazygit /usr/local/bin
 
+	# Install jq
+	sudo apt-get install -y jq
+
+ 	# Install shfmt
+	sudo apt-get install -y shfmt
+
  	# Install chezmoi and apply dotfiles
 	sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply jj-tay
 
