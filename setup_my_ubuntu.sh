@@ -75,7 +75,7 @@ Pin: release l=CRAN-Apt Packages
 Pin-Priority: 700
 EOF
   sudo apt-get install -y --no-install-recommends python3-{dbus,gi,apt}
-  sudo Rscript -e 'install.packages("bspm")'
+  sudo Rscript --vanilla -e 'install.packages("bspm", repos="https://cran.r-project.org")'
   RHOME=$(R RHOME)
   cat << EOF | sudo tee -a ${RHOME}/etc/Rprofile.site
 suppressMessages(bspm::enable())
