@@ -139,7 +139,7 @@ EOF
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
   # Install Oh My Posh
-  brew install jandedobbeleer/oh-my-posh/oh-my-posh
+  (brew install jandedobbeleer/oh-my-posh/oh-my-posh)
 
  	# Install chezmoi and apply dotfiles
 	sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply jj-tay
