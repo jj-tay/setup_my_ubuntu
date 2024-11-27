@@ -142,7 +142,7 @@ EOF
   (brew install jandedobbeleer/oh-my-posh/oh-my-posh)
 
   # Install chezmoi and apply dotfiles
-  sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply jj-tay
+  sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- -b $HOME/.local/bin init --apply jj-tay
 
   # Cd back to original directory
   popd
