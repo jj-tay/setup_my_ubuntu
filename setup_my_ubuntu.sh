@@ -1,31 +1,47 @@
 #!/bin/bash
+set -euo pipefail
+
+TEMP_DIR=""
+PUSHED=0
+
+cleanup() {
+  set +e
+  if [[ "${PUSHED}" -eq 1 ]]; then
+    popd >/dev/null || true
+  fi
+  if [[ -n "${TEMP_DIR}" && -d "${TEMP_DIR}" ]]; then
+    rm -rf "${TEMP_DIR}"
+  fi
+}
 
 setup_my_ubuntu() {
 
   # Switch to temp directory
-  TEMP_DIR=$(mktemp -d -q)
-  pushd $TEMP_DIR >/dev/null
+  TEMP_DIR=$(mktemp -d)
+  trap cleanup EXIT
+  pushd "${TEMP_DIR}" >/dev/null
+  PUSHED=1
 
   # Upgrade packages
   sudo apt-get update
   sudo apt-get dist-upgrade -y
 
   # Install build-essential
-  sudo apt-get install -y build-essential
+  sudo apt-get install -y build-essential ca-certificates curl wget gnupg lsb-release
 
   # Config git
   git config --global user.name 'Tay Jun Jie'
-  git config --global email.name 'jjat1987@gmail.com'
+  git config --global user.email 'jjat1987@gmail.com'
 
   # Install gh
   sudo apt-get install -y gh
 
   # Install diff-so-fancy
   sudo add-apt-repository -y ppa:aos1/diff-so-fancy
+  sudo apt-get update
   sudo apt-get install -y diff-so-fancy
 
   # Install eza
-  sudo apt-get install -y gpg
   if [ ! -d "/etc/apt/keyrings" ]; then sudo mkdir -p /etc/apt/keyrings; fi
   wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor --batch --yes -o /etc/apt/keyrings/gierens.gpg
   echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
@@ -51,8 +67,15 @@ setup_my_ubuntu() {
 
   # Install tmux
   sudo apt-get install -y tmux
-  git clone https://github.com/gpakosz/.tmux.git ~
-  ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
+  if [ -d "${HOME}/.tmux" ]; then
+    git -C "${HOME}/.tmux" pull --ff-only
+  else
+    git clone --depth=1 https://github.com/gpakosz/.tmux.git "${HOME}/.tmux"
+  fi
+  ln -s -f "${HOME}/.tmux/.tmux.conf" "${HOME}/.tmux.conf"
+  if [ ! -e "${HOME}/.tmux.conf.local" ]; then
+    cp "${HOME}/.tmux/.tmux.conf.local" "${HOME}/.tmux.conf.local"
+  fi
 
   # Install python3-pip
   sudo apt-get install -y python3-pip
@@ -62,8 +85,8 @@ setup_my_ubuntu() {
   sudo apt-get install -y --no-install-recommends software-properties-common dirmngr
   wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | sudo tee /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
   sudo add-apt-repository -y "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+  sudo apt-get update
   sudo apt-get install -y --no-install-recommends r-base
-  sudo apt-get install -y --no-install-recommends wget ca-certificates gnupg
   wget -q -O- https://eddelbuettel.github.io/r2u/assets/dirk_eddelbuettel_key.asc |
     sudo tee -a /etc/apt/trusted.gpg.d/cranapt_key.asc
   echo "deb [arch=amd64] https://r2u.stat.illinois.edu/ubuntu noble main" |
@@ -81,6 +104,7 @@ EOF
 suppressMessages(bspm::enable())
 options(bspm.version.check=FALSE)
 EOF
+  sudo apt-get update
   sudo apt-get install -y r-cran-tidyverse r-cran-languageserver
 
   # Install NodeJS
@@ -89,14 +113,19 @@ EOF
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
   nvm install 20
+  nvm alias default 20
 
   # Install go
   curl -LO https://go.dev/dl/go1.22.1.linux-amd64.tar.gz
   sudo rm -rf /usr/local/go
   sudo tar -C /usr/local -xzf go1.22.1.linux-amd64.tar.gz
+  rm go1.22.1.linux-amd64.tar.gz
 
   # Install Rust
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  if [ -s "${HOME}/.cargo/env" ]; then
+    . "${HOME}/.cargo/env"
+  fi
 
   # Install terraform and packer
   wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor --batch --yes -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
@@ -116,18 +145,20 @@ EOF
   sudo apt-get install -y unzip
   unzip -q awscliv2.zip
   sudo ./aws/install
+  rm -rf aws awscliv2.zip
 
   # Install tldr
   npm install -g tldr
 
   # Install zoxide
-  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh -s -- -b "${HOME}/.local/bin"
 
   # Install lazygit
   LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
   curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
   tar xf lazygit.tar.gz lazygit
   sudo install lazygit /usr/local/bin
+  rm -f lazygit lazygit.tar.gz
 
   # Install jq
   sudo apt-get install -y jq
@@ -148,11 +179,7 @@ EOF
   brew install jandedobbeleer/oh-my-posh/oh-my-posh
 
   # Install chezmoi and apply dotfiles
-  sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- -b $HOME/.local/bin init --apply jj-tay
-
-  # Cd back to original directory
-  popd
-  rm -Rf $TEMP_DIR
+  sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- -b "${HOME}/.local/bin" init --apply jj-tay
 
 }
 
