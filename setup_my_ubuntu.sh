@@ -137,9 +137,15 @@ EOF
 
   # Install Homebrew for Oh My Posh
   NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  if [ -x "/home/linuxbrew/.linuxbrew/bin/brew" ]; then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  else
+    echo "Homebrew installation failed" >&2
+    return 1
+  fi
 
   # Install Oh My Posh
-  (brew install jandedobbeleer/oh-my-posh/oh-my-posh)
+  brew install jandedobbeleer/oh-my-posh/oh-my-posh
 
   # Install chezmoi and apply dotfiles
   sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- -b $HOME/.local/bin init --apply jj-tay
