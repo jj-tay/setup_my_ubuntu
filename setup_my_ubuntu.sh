@@ -138,7 +138,8 @@ EOF
   sudo rm -rf /opt/nvim*
   sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
   rm nvim-linux-x86_64.tar.gz
-  sudo apt-get install -y tree-sitter-cli fonts-powerline
+  sudo apt-get install -y fonts-powerline
+  cargo install --locked tree-sitter-cli
 
   # Install awscli
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
