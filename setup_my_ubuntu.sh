@@ -138,7 +138,7 @@ EOF
   sudo rm -rf /opt/nvim*
   sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
   rm nvim-linux-x86_64.tar.gz
-  sudo apt-get install -y fonts-powerline
+  sudo apt-get install -y fonts-powerline libclang-dev
   cargo install --locked tree-sitter-cli
 
   # Install awscli
