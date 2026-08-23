@@ -26,6 +26,9 @@ setup_my_ubuntu() {
   sudo apt-get update
   sudo apt-get dist-upgrade -y
 
+  # Install git (not pulled in by build-essential)
+  sudo apt-get install -y git
+
   # Install build-essential
   sudo apt-get install -y build-essential ca-certificates curl wget gnupg lsb-release
 
@@ -36,10 +39,9 @@ setup_my_ubuntu() {
   # Install gh
   sudo apt-get install -y gh
 
-  # Install diff-so-fancy
-  sudo add-apt-repository -y ppa:aos1/diff-so-fancy
-  sudo apt-get update
-  sudo apt-get install -y diff-so-fancy
+  # Install diff-so-fancy (PATH method: https://github.com/so-fancy/diff-so-fancy)
+  sudo curl -Lo /usr/local/bin/diff-so-fancy https://github.com/so-fancy/diff-so-fancy/releases/latest/download/diff-so-fancy
+  sudo chmod +x /usr/local/bin/diff-so-fancy
 
   # Install eza
   if [ ! -d "/etc/apt/keyrings" ]; then sudo mkdir -p /etc/apt/keyrings; fi
