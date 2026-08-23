@@ -4,8 +4,9 @@ Bootstrap a fresh Ubuntu workstation with my preferred CLI tools, languages, and
 
 ## What’s Included
 
+- `curl` and `git`, installed first since later steps depend on them
 - Core packages (`build-essential`, `gh`, `ripgrep`, `fzf`, `tmux`, `shfmt`, etc.)
-- Utility tooling (`eza`, `bat`, `fd`, `diff-so-fancy`, `jq`, `tldr`, `zoxide`)
+- Utility tooling (`eza`, `bat`, `fd`, `diff-so-fancy` via the [PATH method](https://github.com/so-fancy/diff-so-fancy), `jq`, `tldr`, `zoxide`)
 - Language/runtime setup (Node.js via `nvm`, Go 1.22.x, Rust toolchain, Python tooling, R with CRAN + r2u repos)
 - Infrastructure CLIs (Terraform, Packer, AWS CLI, Homebrew + Oh My Posh)
 - Editors and config (Neovim nightly tarball, Oh My Zsh, tmux config, chezmoi-applied dotfiles)
