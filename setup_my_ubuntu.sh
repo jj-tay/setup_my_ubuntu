@@ -26,11 +26,11 @@ setup_my_ubuntu() {
   sudo apt-get update
   sudo apt-get dist-upgrade -y
 
-  # Install curl and git
-  sudo apt-get install -y curl git
+  # Install git (not pulled in by build-essential)
+  sudo apt-get install -y git
 
   # Install build-essential
-  sudo apt-get install -y build-essential ca-certificates wget gnupg lsb-release
+  sudo apt-get install -y build-essential ca-certificates curl wget gnupg lsb-release
 
   # Config git
   git config --global user.name 'Tay Jun Jie'
